@@ -1,24 +1,29 @@
 package zone.farshad;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Scanner;
 
-public class App 
-{
+public class App {
+
     public static void main(String[] args) {
-        final long start = System.currentTimeMillis();
         File f = new File(args[0]);
         try (FileInputStream inputStream = new FileInputStream(f);
-            Scanner sc = new Scanner(inputStream); ) {
+            Scanner sc = new Scanner(inputStream);
+            BufferedWriter out =
+                new BufferedWriter(
+                    new OutputStreamWriter(
+                        new FileOutputStream(java.io.FileDescriptor.out)),
+                    2);) {
+
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                System.out.println(isPrime(Integer.parseInt(line)));
+                out.write(isPrime(Integer.parseInt(line)) + "\n");
             }
-            final long end = System.currentTimeMillis();
-            System.out.println("total time : " + (end - start));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
